@@ -23,9 +23,41 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+const minesweeper = (matrix) => {
+  const checking = (mass, elList, ElItem) => {
+    let num = 0;
+    if (elList === 0) {
+      if (mass[elList][ElItem - 1] == true) { num += 1 }
+      if (mass[elList][ElItem + 1] == true) { num += 1 }
+      if (mass[elList + 1][ElItem] == true) { num += 1 }
+      if (mass[elList + 1][ElItem - 1] == true) { num += 1 }
+      if (mass[elList + 1][ElItem + 1] == true) { num += 1 }
+    }
+    else if (elList === mass.length - 1) {
+      if (mass[elList][ElItem - 1] == true) { num += 1 }
+      if (mass[elList][ElItem + 1] == true) { num += 1 }
+      if (mass[elList - 1][ElItem] == true) { num += 1 }
+      if (mass[elList - 1][ElItem - 1] == true) { num += 1 }
+      if (mass[elList - 1][ElItem + 1] == true) { num += 1 }
+    }
+    else {
+      if (mass[elList][ElItem - 1] == true) { num += 1 }
+      if (mass[elList][ElItem + 1] == true) { num += 1 }
+      if (mass[elList - 1][ElItem] == true) { num += 1 }
+      if (mass[elList - 1][ElItem - 1] == true) { num += 1 }
+      if (mass[elList - 1][ElItem + 1] == true) { num += 1 }
+      if (mass[elList + 1][ElItem] == true) { num += 1 }
+      if (mass[elList + 1][ElItem - 1] == true) { num += 1 }
+      if (mass[elList + 1][ElItem + 1] == true) { num += 1 }
+    }
+    return num
+  }
+  const result = matrix.map((el, indEl) => {
+    return el.map((val, indVal) => {
+      return checking(matrix, indEl, indVal)
+    });
+  })
+  return result
 }
 
 module.exports = {

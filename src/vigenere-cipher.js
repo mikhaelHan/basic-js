@@ -20,13 +20,65 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor (val) {
+    this.bool = (val === undefined || val === true) ? true : false;
+    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    this.num = {};
+
+    for (let i = 0; i < this.alphabet.length; i++) {
+      this.num[this.alphabet[i]] = i;
+    }
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+
+  encrypt(text, key) {
+
+    if (!text || !key) throw new Error('Incorrect arguments!');
+    else {
+
+      text = text.toUpperCase();
+      key = key.toUpperCase();
+      let code = '';
+      let k = 0;
+
+      for (let i = 0; i < text.length; i++) {
+
+        if (this.alphabet.includes(text[i])) {
+
+          code += this.alphabet[(this.num[text[i]] + this.num[key[k % key.length]]) % this.alphabet.length];
+          k++;
+        }
+        else code += text[i];
+      }
+
+      return this.bool ? code : code.split('').reverse().join('');
+    }
+  }
+
+
+  decrypt(text, key) {
+
+    if (!text || !key) throw new Error('Incorrect arguments!');
+    else {
+
+      text = text.toUpperCase();
+      key = key.toUpperCase();
+      let code = '';
+      let k = 0;
+
+      for (let i = 0; i < text.length; i++) {
+
+        if (this.alphabet.includes(text[i])) {
+
+          code += this.alphabet[(this.num[text[i]] - this.num[key[k % key.length]] + this.alphabet.length) % this.alphabet.length];
+          k++;
+        }
+        else code += text[i];
+      }
+
+      return this.bool ? code : code.split('').reverse().join('');
+
+    }
   }
 }
 
